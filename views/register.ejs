@@ -1,0 +1,59 @@
+<%- include('partials/header') %>
+
+<div class="vh-100 d-flex flex-column">
+  <!-- Go Back Button -->
+  <div class="container pt-3">
+    <a href="/" class="btn btn-outline-secondary">&larr; Go Back</a>
+  </div>
+
+  <!-- Centered Form -->
+  <div
+    class="container d-flex flex-grow-1 justify-content-center align-items-center"
+  >
+    <form class="form-signin w-100" style="max-width: 400px">
+      <div class="text-center mb-4">
+        <h1 class="mb-3 font-weight-normal">Sign Up</h1>
+        <p>Already have an account? <a href="/login">Log in here!</a></p>
+      </div>
+
+      <div class="form-label-group mb-3">
+        <input
+          type="text"
+          id="inputUsername"
+          class="form-control"
+          placeholder="Username"
+          required
+          autofocus
+        />
+      </div>
+
+      <div class="form-label-group mb-3">
+        <input
+          type="password"
+          id="inputPassword"
+          class="form-control"
+          placeholder="Password"
+          required
+        />
+      </div>
+
+      <div class="form-label-group mb-3">
+        <input
+          type="password"
+          id="repeatPassword"
+          class="form-control"
+          placeholder="Confirm Password"
+          required
+        />
+      </div>
+
+      <!-- Captcha -->
+
+      <button class="btn btn-lg btn-primary w-100" type="submit">
+        Sign up
+      </button>
+    </form>
+  </div>
+</div>
+
+<%- include('partials/footer') %>
