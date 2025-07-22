@@ -21,6 +21,11 @@ app.get('/products', (req, res) => {
     res.render('products', { page: { title: 'Products'}})
 })
 
+app.post('/', (req, res) => {
+    
+    res.render('index', { page: { title: 'Home'}});
+})
+
 const port = 3000;
 
 app.listen(port, () => {

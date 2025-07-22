@@ -1,4 +1,7 @@
 <%- include('partials/header') %>
+<head>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
 
 <div class="vh-100 d-flex flex-column">
   <!-- Go Back Button -->
@@ -10,7 +13,7 @@
   <div
     class="container d-flex flex-grow-1 justify-content-center align-items-center"
   >
-    <form class="form-signin w-100" style="max-width: 400px">
+    <form action="index.ejs" method="POST" w-100" style="max-width: 400px">
       <div class="text-center mb-4">
         <h1 class="mb-3 font-weight-normal">Sign Up</h1>
         <p>Already have an account? <a href="/login">Log in here!</a></p>
@@ -18,10 +21,10 @@
 
       <div class="form-label-group mb-3">
         <input
-          type="text"
-          id="inputUsername"
+          type="email"
+          id="inputEmail"
           class="form-control"
-          placeholder="Username"
+          placeholder="Email"
           required
           autofocus
         />
@@ -48,7 +51,8 @@
       </div>
 
       <!-- Captcha -->
-
+      <div class="g-recaptcha" data-sitekey="6LcPFIsrAAAAAPY64Ik1jigXLYLs9m6WcaV5Fxp1"></div>
+      <br>
       <button class="btn btn-lg btn-primary w-100" type="submit">
         Sign up
       </button>
