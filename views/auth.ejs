@@ -1,0 +1,41 @@
+<%- include('partials/header') %>
+
+<!-- Error message -->
+<% if (error) { %>
+<div class="alert alert-danger">
+    <%= error %>
+</div>
+
+<% } %>
+
+    <div class="vh-100 d-flex flex-column">
+        <!-- Go Back Button -->
+        <div class="container pt-3">
+            <a href="/" class="btn btn-outline-secondary">&larr; Go Back</a>
+        </div>
+
+        <!-- Values passed from POST /login -->
+        <input type="hidden" name="email" value="<%= email %>">
+        <input type="hidden" name="secret" value="<%= secret %>">
+
+        <!-- Centered Form -->
+        <div class="container d-flex flex-grow-1 justify-content-center align-items-center">
+            <!-- Method: POST-->
+            <form action="/auth" method="POST" class="form-signin w-100" style="max-width: 400px">
+            <div class="text-center mb-4">
+                <h1 class="mb-3 font-weight-normal">Authenticate your account</h1>
+                <p>An authentication code was sent to <%= email %>, please enter it.</p>
+            </div>
+
+            <div class="form-label-group mb-3">
+                <input type="text" id="userToken" name="userToken" class="form-control" placeholder="Authentication Code" required autofocus />
+            </div>
+
+            <button class="btn btn-lg btn-primary w-100" type="submit">
+                Authenticate
+            </button>
+            </form>
+        </div>
+    </div>
+
+<%- include('partials/footer') %>

@@ -42,14 +42,14 @@ app.post('/login', (req, res) => {
     const secret = twofactor.generateSecret({ account: email });
 
     // Create a new token
-    const token = twofactor.generateToken(secret.token);
+    const token = twofactor.generateToken(secret.secret);
 
     // Configure email message
     const mail = {
         from: process.env.EMAIL_APP_USERNAME,
         to: email,
         subject: 'E-Commerce App Verification Code',
-        text: `Your authentication code is: ${token}`
+        text: `Your authentication code is: ${token.token}`
     }
 
     // Send the email
@@ -66,7 +66,8 @@ app.post('/login', (req, res) => {
             res.render('auth', {
                 email: email,
                 secret: secret.secret,
-                page: { title: 'Login' }
+                page: { title: 'Login' },
+                error: null
             });
         }
     })
@@ -118,7 +119,12 @@ app.post('/auth', (req, res) => {
         // Token is correct
         res.render('index', { page: { title: 'Home' }, email: email });
     } else {
-        res.render('auth', { page: { title: 'Authentication' }, error: 'Invalid MFA token.', email: email});
+        res.render('auth', {
+            email: email,
+            secret: secret,
+            page: { title: 'Authentication' },
+            error: 'Invalid MFA token.'
+        });
     }
 });
 
