@@ -13,11 +13,11 @@ app.set('views', 'views');
 app.set('port', process.env.PORT || 3000);
 
 app.get('/', (req, res) => {
-    res.render('index', { page: { title: 'Home'}});
+    res.render('index', { page: { title: 'Home'}, email: 'Guest' });
 })
 
 app.get('/login', (req, res) => {
-    res.render('login', { page: { title: 'Register'}})
+    res.render('login', { page: { title: 'Login'}})
 })
 
 app.get('/register', (req, res) => {
