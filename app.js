@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const twofactor = require('node-2fa');
 const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 // Create mail-sending agent for MFA tokens
 const transporter = nodemailer.createTransport({
@@ -12,8 +13,6 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_APP_PASSWORD
   }
 });
-
-require('dotenv').config();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -29,28 +28,49 @@ app.get('/', (req, res) => {
 })
 
 app.get('/login', (req, res) => {
-    res.render('login', { page: { title: 'Login' }});
-})
+    res.render('login', {
+    page: { title: 'Login' },
+    error: null
+    })
+});
 
 app.post('/login', (req, res) => {
-    const email = req.body.email;
+    console.log("Hi");
+    const email = req.body.inputEmail;
 
     // Create a new secret
     const secret = twofactor.generateSecret({ account: email });
 
-    // Create a new token and send it to the user
+    // Create a new token
     const token = twofactor.generateToken(secret.token);
 
-    // Get user input token and verify it
-    const userToken = req.body.userToken;
-
-    if (twofactor.verifyToken(userToken).delta == 0) {
-        // Token is correct
-        res.render('index', { page: { title: 'Home' }, email: email });
-    } else {
-        res.render('login', { page: { title: 'Login' }, error: 'Invalid MFA token.', email: email});
+    // Configure email message
+    const mail = {
+        from: process.env.EMAIL_APP_USERNAME,
+        to: email,
+        subject: 'E-Commerce App Verification Code',
+        text: `Your authentication code is: ${token}`
     }
-})
+
+    // Send the email
+    transporter.sendMail(mail, (err, info) => {
+        if (err) {
+            console.error('Error sending email:', err);
+            return res.render('login', {
+                page: { title: 'Login' },
+                error: 'Failed to send email.'
+            });
+        } else {
+            console.log('Email sent:', info.response);
+            // Render the authentication page
+            res.render('auth', {
+                email: email,
+                secret: secret.secret,
+                page: { title: 'Login' }
+            });
+        }
+    })
+});
 
 app.get('/register', (req, res) => {
     res.render('register', { page: { title: 'Register' }})
@@ -86,6 +106,21 @@ app.post('/register', (req, res) => {
             return res.json({ error });
         });
 })
+
+app.post('/auth', (req, res) => {
+    // Get user input token and verify it
+    const email = req.body.inputEmail;
+    const secret = req.body.secret;
+    const userToken = req.body.userToken;
+
+    // Only do this on form submit
+    if (twofactor.verifyToken(secret, userToken).delta == 0) {
+        // Token is correct
+        res.render('index', { page: { title: 'Home' }, email: email });
+    } else {
+        res.render('auth', { page: { title: 'Authentication' }, error: 'Invalid MFA token.', email: email});
+    }
+});
 
 const port = 3000;
 

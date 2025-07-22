@@ -1,58 +1,48 @@
 <%- include('partials/header') %>
 
-<div class="vh-100 d-flex flex-column">
-  <!-- Go Back Button -->
-  <div class="container pt-3">
-    <a href="/" class="btn btn-outline-secondary">&larr; Go Back</a>
-  </div>
+  <!-- Error message -->
+  <% if (error) { %>
+    <div class="alert alert-danger">
+      <%= error %>
+    </div>
+    <% } %>
 
-  <!-- Centered Form -->
-  <div
-    class="container d-flex flex-grow-1 justify-content-center align-items-center"
-  >
-    <!-- Method: POST-->
-    <form class="form-signin w-100" style="max-width: 400px">
-      <div class="text-center mb-4">
-        <h1 class="mb-3 font-weight-normal">Log In</h1>
-        <p>Don't have an account? <a href="/register">Sign up here!</a></p>
+      <div class="vh-100 d-flex flex-column">
+        <!-- Go Back Button -->
+        <div class="container pt-3">
+          <a href="/" class="btn btn-outline-secondary">&larr; Go Back</a>
+        </div>
+
+        <!-- Centered Form -->
+        <div class="container d-flex flex-grow-1 justify-content-center align-items-center">
+          <!-- Method: POST-->
+          <form action="/login" method="POST" class="form-signin w-100" style="max-width: 400px">
+            <div class="text-center mb-4">
+              <h1 class="mb-3 font-weight-normal">Log In</h1>
+              <p>Don't have an account? <a href="/register">Sign up here!</a></p>
+            </div>
+
+            <div class="form-label-group mb-3">
+              <input type="email" id="inputEmail" name="inputEmail" class="form-control" placeholder="Email" required autofocus />
+            </div>
+
+            <div class="form-label-group mb-3">
+              <input type="password" id="inputPassword" class="form-control" placeholder="Password" required />
+            </div>
+
+            <div class="form-check mb-3">
+              <input type="checkbox" class="form-check-input" id="rememberMe" />
+              <label class="form-check-label" for="rememberMe">Remember me</label>
+            </div>
+
+            <button class="btn btn-lg btn-primary w-100" type="submit">
+              Log in
+            </button>
+            <p class="form-label pt-2 text-center">
+              <a href="/TODO">Forgot my password</a>
+            </p>
+          </form>
+        </div>
       </div>
 
-      <div class="form-label-group mb-3">
-        <input
-          type="email"
-          id="inputEmail"
-          class="form-control"
-          placeholder="Email"
-          required
-          autofocus
-        />
-      </div>
-
-      <div class="form-label-group mb-3">
-        <input
-          type="password"
-          id="inputPassword"
-          class="form-control"
-          placeholder="Password"
-          required
-        />
-      </div>
-
-      <div class="form-check mb-3">
-        <input type="checkbox" class="form-check-input" id="rememberMe" />
-        <label class="form-check-label" for="rememberMe">Remember me</label>
-      </div>
-
-      <!-- Captcha -->
-
-      <button class="btn btn-lg btn-primary w-100" type="submit">
-        Log in
-      </button>
-      <p class="form-label pt-2 text-center">
-        <a href="/TODO">Forgot my password</a>
-      </p>
-    </form>
-  </div>
-</div>
-
-<%- include('partials/footer') %>
+      <%- include('partials/footer') %>
