@@ -40,11 +40,14 @@ app.post('/register', (req, res) => {
         // Process the .json response into the server
         .then((response => response.json()))
         .then((google_response) => {
+            // Log the score
+            console.log(google_response.score);
+            
             // Response is successful
             if (google_response.success) {
                 return res.render('index', {page: 'Home', email: email})
             } else {
-                return res.send("Invalid Captcha!")
+                return res.send("Invalid Captcha!");
             }
         })
         .catch((error) => {
