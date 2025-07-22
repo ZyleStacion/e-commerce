@@ -1,5 +1,9 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
+require('dotenv').config();
+
+const secretKey = process.env.RECAPTCHA_SECRET_KEY;
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -21,9 +25,9 @@ app.get('/products', (req, res) => {
     res.render('products', { page: { title: 'Products'}})
 })
 
-app.post('/', (req, res) => {
-    
-    res.render('index', { page: { title: 'Home'}});
+app.post('/register', (req, res) => {
+    const recaptchaToken = req.body['g-recaptcha-response'];
+
 })
 
 const port = 3000;
