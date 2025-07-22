@@ -14,10 +14,6 @@
             <a href="/" class="btn btn-outline-secondary">&larr; Go Back</a>
         </div>
 
-        <!-- Values passed from POST /login -->
-        <input type="hidden" name="email" value="<%= email %>">
-        <input type="hidden" name="secret" value="<%= secret %>">
-
         <!-- Centered Form -->
         <div class="container d-flex flex-grow-1 justify-content-center align-items-center">
             <!-- Method: POST-->
@@ -30,6 +26,10 @@
             <div class="form-label-group mb-3">
                 <input type="text" id="userToken" name="userToken" class="form-control" placeholder="Authentication Code" required autofocus />
             </div>
+            
+            <!-- Values passed from POST /login -->
+            <input type="hidden" name="inputEmail" value="<%= email %>">
+            <input type="hidden" name="secret" value="<%= secret %>">
 
             <button class="btn btn-lg btn-primary w-100" type="submit">
                 Authenticate
