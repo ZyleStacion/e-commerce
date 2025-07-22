@@ -1,6 +1,18 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const twofactor = require('node-2fa');
+const nodemailer = require('nodemailer');
+
+// Create mail-sending agent for MFA tokens
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_APP_USERNAME,
+    pass: process.env.EMAIL_APP_PASSWORD
+  }
+});
+
 require('dotenv').config();
 
 app.use(express.urlencoded({ extended: true }));
@@ -13,19 +25,39 @@ app.set('views', 'views');
 app.set('port', process.env.PORT || 3000);
 
 app.get('/', (req, res) => {
-    res.render('index', { page: { title: 'Home'}, email: 'Guest' });
+    res.render('index', { page: { title: 'Home' }, email: 'Guest' });
 })
 
 app.get('/login', (req, res) => {
-    res.render('login', { page: { title: 'Login'}})
+    res.render('login', { page: { title: 'Login' }});
+})
+
+app.post('/login', (req, res) => {
+    const email = req.body.email;
+
+    // Create a new secret
+    const secret = twofactor.generateSecret({ account: email });
+
+    // Create a new token and send it to the user
+    const token = twofactor.generateToken(secret.token);
+
+    // Get user input token and verify it
+    const userToken = req.body.userToken;
+
+    if (twofactor.verifyToken(userToken).delta == 0) {
+        // Token is correct
+        res.render('index', { page: { title: 'Home' }, email: email });
+    } else {
+        res.render('login', { page: { title: 'Login' }, error: 'Invalid MFA token.', email: email});
+    }
 })
 
 app.get('/register', (req, res) => {
-    res.render('register', { page: { title: 'Register'}})
+    res.render('register', { page: { title: 'Register' }})
 })
 
 app.get('/products', (req, res) => {
-    res.render('products', { page: { title: 'Products'}})
+    res.render('products', { page: { title: 'Products' }})
 })
 
 app.post('/register', (req, res) => {

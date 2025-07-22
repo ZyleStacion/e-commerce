@@ -7,6 +7,8 @@ To host the web app, please `npm install` the following packages:
 - "dotenv": "^17.2.0",
 - "ejs": "^3.1.10",
 - "express": "^5.1.0"
+- "node2fa": "2.0.3"
+- "nodemailer": "7.0.5"
 
 Use the branches to view the source code for reCAPTCHA v2 and v3 respectively.
 
