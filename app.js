@@ -3,6 +3,9 @@ const app = express();
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 const secretKey = process.env.RECAPTCHA_SECRET_KEY;
 
 app.set('view engine', 'ejs');
@@ -27,7 +30,26 @@ app.get('/products', (req, res) => {
 
 app.post('/register', (req, res) => {
     const recaptchaToken = req.body['g-recaptcha-response'];
+    const email = req.body.email;
 
+    // Verify successful Captcha
+    // Ask Google to verify our secret key and recaptcha client-side response
+    const response = fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${recaptchaToken}`, {
+        method: 'POST',
+    })
+        // Process the .json response into the server
+        .then((response => response.json()))
+        .then((google_response) => {
+            // Response is successful
+            if (google_response.success) {
+                return res.render('index', {page: 'Home', email: email})
+            } else {
+                return res.send("Invalid Captcha!")
+            }
+        })
+        .catch((error) => {
+            return res.json({ error });
+        });
 })
 
 const port = 3000;
