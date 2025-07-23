@@ -7,11 +7,11 @@ require('dotenv').config();
 
 // Create mail-sending agent for MFA tokens
 const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_APP_USERNAME,
-    pass: process.env.EMAIL_APP_PASSWORD
-  }
+    service: "gmail",
+    auth: {
+        user: process.env.EMAIL_APP_USERNAME,
+        pass: process.env.EMAIL_APP_PASSWORD
+    }
 });
 
 app.use(express.urlencoded({ extended: true }));
@@ -29,13 +29,12 @@ app.get('/', (req, res) => {
 
 app.get('/login', (req, res) => {
     res.render('login', {
-    page: { title: 'Login' },
-    error: null
+        page: { title: 'Login' },
+        error: null
     })
 });
 
 app.post('/login', (req, res) => {
-    console.log("Hi");
     const email = req.body.inputEmail;
 
     // Create a new secret
@@ -74,11 +73,11 @@ app.post('/login', (req, res) => {
 });
 
 app.get('/register', (req, res) => {
-    res.render('register', { page: { title: 'Register' }})
+    res.render('register', { page: { title: 'Register' } })
 })
 
 app.get('/products', (req, res) => {
-    res.render('products', { page: { title: 'Products' }})
+    res.render('products', { page: { title: 'Products' } })
 })
 
 app.post('/register', (req, res) => {
@@ -95,10 +94,10 @@ app.post('/register', (req, res) => {
         .then((google_response) => {
             // Log the score
             console.log(google_response.score);
-            
+
             // Response is successful
             if (google_response.success) {
-                return res.render('index', {page: 'Home', email: email})
+                return res.render('index', { page: 'Home', email: email })
             } else {
                 return res.send("Invalid Captcha!");
             }
@@ -113,7 +112,7 @@ app.post('/auth', (req, res) => {
     const email = req.body.inputEmail;
     const secret = req.body.secret;
     const userToken = req.body.userToken;
-    
+
     // Only do this on form submit
     if (twofactor.verifyToken(secret, userToken).delta == 0) {
         // Token is correct
