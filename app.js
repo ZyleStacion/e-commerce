@@ -126,12 +126,9 @@ app.post('/auth', (req, res) => {
         // Token is correct
         res.render('index', { page: { title: 'Home' }, email: email });
     } else {
-        res.render('auth', {
-            email: email,
-            secret: secret,
-            page: { title: 'Authentication' },
-            error: 'Invalid MFA token.',
-            qrUrl: qrCode
+        res.render('login', {
+                page: { title: 'Login' },
+                error: 'Failed to authenticate. Please try again.'
         });
     }
 });
