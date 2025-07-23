@@ -17,7 +17,7 @@ const transporter = nodemailer.createTransport({
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+const secretKey = process.env.RECAPTCHA_SECRET_KEY_v2;
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -115,7 +115,7 @@ app.post('/auth', (req, res) => {
 
     // Verify token
     const verificationResult = twofactor.verifyToken(secret, userToken);
-    
+
     if (verificationResult && verificationResult.delta == 0) {
         // Token is correct
         res.render('index', { page: { title: 'Home' }, email: email });
