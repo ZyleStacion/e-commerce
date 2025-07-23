@@ -38,10 +38,11 @@ app.post('/login', (req, res) => {
     const email = req.body.inputEmail;
 
     // Create a new secret
-    const secret = twofactor.generateSecret({ account: email });
+    const fullSecret = twofactor.generateSecret({ name: 'E-Commerce App', account: email });
+    console.log(fullSecret);
 
     // Create a new token
-    const token = twofactor.generateToken(secret.secret);
+    const token = twofactor.generateToken(fullSecret.secret);
 
     // Configure email message
     const mail = {
@@ -50,6 +51,11 @@ app.post('/login', (req, res) => {
         subject: 'E-Commerce App Verification Code',
         text: `Your authentication code is: ${token.token}`
     }
+
+    // Create the QR code
+    const uri = fullSecret.uri;
+    const qrCode = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(uri)}`;
+    console.log(qrCode);
 
     // Send the email
     transporter.sendMail(mail, (err, info) => {
@@ -64,7 +70,8 @@ app.post('/login', (req, res) => {
             // Render the authentication page
             res.render('auth', {
                 email: email,
-                secret: secret.secret,
+                secret: fullSecret.secret,
+                qrUrl: qrCode,
                 page: { title: 'Login' },
                 error: null
             });

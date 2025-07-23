@@ -20,13 +20,13 @@
             <form action="/auth" method="POST" class="form-signin w-100" style="max-width: 400px">
             <div class="text-center mb-4">
                 <h1 class="mb-3 font-weight-normal">Authenticate your account</h1>
-                <p>An authentication code was sent to <%= email %>, please enter it.</p>
+                <p>Please scan this QR code and enter the 2FA code.</p>
+                <img src="<%= qrUrl %>" alt="MFA QR code">
             </div>
 
             <div class="form-label-group mb-3">
                 <input type="text" id="userToken" name="userToken" class="form-control" placeholder="Authentication Code" required autofocus />
             </div>
-            
             <!-- Values passed from POST /login -->
             <input type="hidden" name="inputEmail" value="<%= email %>">
             <input type="hidden" name="secret" value="<%= secret %>">
