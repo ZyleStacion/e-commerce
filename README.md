@@ -11,7 +11,7 @@ To host the web app, please `npm install` the following packages:
 - "nodemailer": "7.0.5"
 
 This repository contains branches for the following questions:
-- main: Q2 and Q3
+- main: Q2b and Q3
 - recaptcha-v2: Q2a
 - recaptcha-v3: Q2b
 - simple-2fa: Q3
