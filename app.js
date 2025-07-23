@@ -113,8 +113,10 @@ app.post('/auth', (req, res) => {
     const secret = req.body.secret;
     const userToken = req.body.userToken;
 
-    // Only do this on form submit
-    if (twofactor.verifyToken(secret, userToken).delta == 0) {
+    // Verify token
+    const verificationResult = twofactor.verifyToken(secret, userToken);
+    
+    if (verificationResult && verificationResult.delta == 0) {
         // Token is correct
         res.render('index', { page: { title: 'Home' }, email: email });
     } else {
