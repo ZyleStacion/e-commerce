@@ -6,7 +6,7 @@ require('dotenv').config();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+const secretKey = process.env.RECAPTCHA_SECRET_KEY_v2;
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
