@@ -117,6 +117,7 @@ app.post('/auth', (req, res) => {
     const email = req.body.inputEmail;
     const secret = req.body.secret;
     const userToken = req.body.userToken;
+    const qrCode = req.body.qrCode;
 
     // Verify token
     const verificationResult = twofactor.verifyToken(secret, userToken);
@@ -129,7 +130,8 @@ app.post('/auth', (req, res) => {
             email: email,
             secret: secret,
             page: { title: 'Authentication' },
-            error: 'Invalid MFA token.'
+            error: 'Invalid MFA token.',
+            qrUrl: qrCode
         });
     }
 });
