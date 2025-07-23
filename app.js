@@ -39,7 +39,6 @@ app.post('/login', (req, res) => {
 
     // Create a new secret
     const fullSecret = twofactor.generateSecret({ name: 'E-Commerce App', account: email });
-    console.log(fullSecret);
 
     // Create a new token
     const token = twofactor.generateToken(fullSecret.secret);
@@ -55,7 +54,6 @@ app.post('/login', (req, res) => {
     // Create the QR code
     const uri = fullSecret.uri;
     const qrCode = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(uri)}`;
-    console.log(qrCode);
 
     // Send the email
     transporter.sendMail(mail, (err, info) => {
